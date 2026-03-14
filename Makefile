@@ -14,7 +14,9 @@ TARGET = $(BIN_DIR)/test_io
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS) $(TEST_DIR)/*.c
+
+
+$(TARGET): $(OBJS) $(TEST_DIR)/test_keyboard.c
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
 
