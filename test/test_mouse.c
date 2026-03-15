@@ -1,10 +1,10 @@
 #include "../include/ioautomation.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void test_mousemove(IOContext *ctx, int x, int y);
 int* test_mouseread(IOContext *ctx);
-void test_mouseaction(IOContext *ctx);
 
 int main() {
     int x = 45, y = 12;
@@ -20,8 +20,23 @@ int main() {
     else {
         printf("[\033[31mFAIL\033[0m] Mouse movement test\n");
     }
-
+    /*
     mouse_action(ctx,MOUSE_LEFT_CLICK);
+    sleep(2);
+    mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
+    sleep(1);
+    mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
+    sleep(1);
+    mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
+    sleep(1);
+    mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
+    sleep(1);
+    mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
+    */
+    sleep(2);
+    int initialPos[2] = {200,200};
+    int finalPos[2] = {45,12};
+    mouse_drag(ctx,initialPos,finalPos);
 
     io_cleanup(ctx);
     free(pos);

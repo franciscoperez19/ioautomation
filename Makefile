@@ -16,7 +16,7 @@ all: $(TARGET)
 
 
 
-$(TARGET): $(OBJS) $(TEST_DIR)/test_keyboard.c
+$(TARGET): $(OBJS) $(TEST_DIR)/test_mouse.c
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
 

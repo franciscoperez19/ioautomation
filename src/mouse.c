@@ -1,5 +1,36 @@
 #include "io_internal.h"
+#include <unistd.h>
 
+
+
+
+static void _smooth_mouse_movement(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
+     int difX,difY, difTotal, n;
+    // absolute value of cords to make a smooth mouse move
+    if(initialPosition[0] > finalPosition[0]) {
+        difX = initialPosition[0] - finalPosition[0];
+    }
+    else difX = finalPosition[0] - initialPosition[0];
+
+    if(initialPosition[1] > finalPosition[1]) {
+        difY = initialPosition[1] - finalPosition[1];
+    }
+    else difY = finalPosition[1] - initialPosition[1];
+
+    difTotal = difX + difY;
+    if ((n = (int) difTotal / 5) < 5) n = 5;
+
+    float posX = initialPosition[0], posY = initialPosition[1];
+    float incX = (float) (finalPosition[0] - initialPosition[0]) / n;
+    float incY = (float) (finalPosition[1] - initialPosition[1]) / n;
+    for(int i = 0; i < n; i++) {
+        posX += incX;
+        posY += incY;
+        mouse_move(ctx,(int) posX,(int) posY);
+        XFlush(ctx->display);
+        usleep(2000);
+    }
+}
 
 /** 
 *    @brief Obtain mouse current position 
@@ -56,5 +87,49 @@ int mouse_action (const IOContext *ctx, MouseButton action) {
     XFlush(ctx->display);
     if(!XTestFakeButtonEvent(ctx->display,action,False,10)) return -1;
     XFlush(ctx->display);
+    return 0;
+}
+
+/** 
+*    @brief Scroll down/up
+*    @param ctx Pointer to context of library
+*    @param scroll Mouse button constant (eg. MOUSE_SCROLL_UP)
+*    @param amount How much want to scroll
+*    @return -1 in case of error, otherwise, 0
+*
+*/
+int mouse_scroll(const IOContext *ctx, MouseButton scroll, int amount) {
+    if(ctx == NULL || (scroll != MOUSE_SCROLL_DOWN && scroll != MOUSE_SCROLL_UP)) return -1;
+    
+    for(int i = 0; i < amount; i++) {
+        XTestFakeButtonEvent(ctx->display,scroll,True,0);
+        usleep(50);
+        if(!XTestFakeButtonEvent(ctx->display,scroll,False,0)) return -1;
+    }
+    XFlush(ctx->display);
+    return 0;
+}
+
+
+/** 
+*    @brief Move the mouse while holding left click
+*    @param ctx Pointer to context of library
+*    @param initalPosition Position where pointer hold left click [0] = X, [1] = Y
+*    @param finalPosiition Position where pointer drop left click [0] = X, [1] = Y
+*    @return -1 in case of error, otherwise, 0
+*
+*/
+int mouse_drag(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
+    if ( ctx == NULL || (initialPosition == NULL || finalPosition == NULL)) return -1;
+
+    mouse_move(ctx,initialPosition[0],initialPosition[1]);
+    XTestFakeButtonEvent(ctx->display, MOUSE_LEFT_CLICK, True, 0);
+    
+    _smooth_mouse_movement(ctx,initialPosition,finalPosition);
+
+    mouse_move(ctx,finalPosition[0],finalPosition[1]);
+    XTestFakeButtonEvent(ctx->display, MOUSE_LEFT_CLICK, False, 0);
+    XFlush(ctx->display);
+
     return 0;
 }
