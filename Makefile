@@ -11,7 +11,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 TARGET = $(BIN_DIR)/test_io
-
+LIB_NAME = libioautomation.a
 all: $(TARGET)
 
 
@@ -30,4 +30,20 @@ clean:
 test: all
 	./$(TARGET)
 
-.PHONY: all clean test
+lib:
+	@echo "Compiling objects..."
+	$(CC) $(CFLAGS) -c src/*.c 
+	@echo "Creating static lib $(LIB_NAME)"
+	ar rcs $(LIB_NAME) *.o
+	@rm *.o
+	@echo "Done! Library in actual directory"
+
+install: lib
+	@echo "Installing in usr/local/lib..."
+	install -d /usr/local/lib
+	install -m 644 $(LIB_NAME) /usr/local/lib/
+	install -d /usr/local/include
+	install -m 644 include/ioautomation.h /usr/local/include/
+	@echo "Library installed succesfully"
+
+.PHONY: all clean test lib install

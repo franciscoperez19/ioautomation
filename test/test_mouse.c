@@ -34,7 +34,7 @@ int main() {
     mouse_scroll(ctx,MOUSE_SCROLL_DOWN, 1);
     */
     sleep(2);
-    int initialPos[2] = {200,200};
+    int initialPos[2] = {2000,2000};
     int finalPos[2] = {45,12};
     mouse_drag(ctx,initialPos,finalPos);
 
