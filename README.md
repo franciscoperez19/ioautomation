@@ -50,15 +50,15 @@ gcc main.c -lioautomation -lX11 -lXtst -o my_app
 #include "ioautomation.h"
 
 int main() {
-    IOContext ctx;
-    if (io_init(&ctx) != 0) return 1;
+    IOContext *ctx = io_init();
+    if (ctx == NULL) return 1;
 
     int start[2] = {100, 100};
     int end[2] = {500, 500};
 
-    mouse_drag(&ctx, start, end); 
+    mouse_drag(ctx, start, end); 
 
-    io_free(&ctx);
+    io_cleanup(ctx);
     return 0;
 }
 ```
