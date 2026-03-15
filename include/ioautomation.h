@@ -19,5 +19,6 @@ int mouse_action (const IOContext *ctx, MouseButton action);
 // keyboard functions
 
 void keyboard_press(const IOContext *ctx, KeyboardKey key);
+void keyboard_hotkey(const IOContext *ctx, KeyboardKey *keys, int keysCount);
 
 #endif 
