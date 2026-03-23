@@ -1,4 +1,4 @@
-#include "io_internal.h"
+#include "../io_internal.h"
 #include <stdlib.h>
 
 IOContext* io_init() {

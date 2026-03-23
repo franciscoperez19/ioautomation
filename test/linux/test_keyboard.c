@@ -1,4 +1,4 @@
-#include "ioautomation.h"
+#include "../../include/ioautomation.h"
 #include <unistd.h>
 
 int main() {

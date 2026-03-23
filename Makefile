@@ -2,13 +2,13 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -Isrc
 LFLAGS = -lX11 -lXtst
 
-SRC_DIR = src
+SRCLINUX_DIR = src/linux
 OBJ_DIR = obj
 BIN_DIR = bin
-TEST_DIR = test
+TESTLINUX_DIR = test/linux
 
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+SRCS = $(wildcard $(SRCLINUX_DIR)/*.c)
+OBJS = $(patsubst $(SRCLINUX_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 TARGET = $(BIN_DIR)/test_io
 LIB_NAME = libioautomation.a
@@ -16,11 +16,11 @@ all: $(TARGET)
 
 
 
-$(TARGET): $(OBJS) $(TEST_DIR)/test_mouse.c
+$(TARGET): $(OBJS) $(TESTLINUX_DIR)/test_mouse.c
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRCLINUX_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
