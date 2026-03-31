@@ -95,7 +95,7 @@ int mouse_drag(const IOContext *ctx, int initialPosition[2], int finalPosition[2
     mouse_move(ctx,initialPosition[0],initialPosition[1]);
     XTestFakeButtonEvent(ctx->display, MOUSE_LEFT_CLICK, True, 0);
     
-    _smooth_mouse_movement(ctx,initialPosition,finalPosition);
+    __smooth_mouse_movement__(ctx,initialPosition,finalPosition);
 
     mouse_move(ctx,finalPosition[0],finalPosition[1]);
     XTestFakeButtonEvent(ctx->display, MOUSE_LEFT_CLICK, False, 0);

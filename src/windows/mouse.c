@@ -108,5 +108,26 @@ int mouse_scroll(const IOContext *ctx, MouseButton scroll, int amount) {
 *
 */
 int mouse_drag(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
+    INPUT inputs[2] = {0};
 
+
+    if (SetCursorPos(initialPosition[0],initialPosition[1]) == 0) return -1;
+
+    Sleep(1);
+
+    inputs[0].type = INPUT_MOUSE;
+    inputs[0].mi.dwFlags = MOUSE_LEFT_CLICK;
+
+    if (SendInput(1,inputs, sizeof(INPUT)) != 1) return -1;
+
+    Sleep(1);
+
+    __smooth_mouse_movement__(NULL,initialPosition,finalPosition);
+
+    Sleep(1);
+
+    inputs[1].type = INPUT_MOUSE;
+    inputs[1].mi.dwFlags = MOUSEEVENTF_LEFTUP;
+    if (SendInput(1,inputs, sizeof(INPUT)) != 1) return -1;
+    return 0;
 }

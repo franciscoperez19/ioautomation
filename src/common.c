@@ -8,7 +8,7 @@
     #define IO_SLEEP(ms) usleep(2000)
 #endif
 
-static void _smooth_mouse_movement(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
+static void __smooth_mouse_movement__(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
      int difX,difY, difTotal, n;
     // absolute value of cords to make a smooth mouse move
     if(initialPosition[0] > finalPosition[0]) {
