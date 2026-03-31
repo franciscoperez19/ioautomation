@@ -1,4 +1,5 @@
 #include "../io_internal.h"
+#define CUSTOM_WHEEL_DELTA 30
 
 // internal function to process the 2 actions of the mouse first DOWN then UP
 
