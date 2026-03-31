@@ -1,6 +1,6 @@
 # IOAUTOMATION
 
-A lightweight C library for Linux automation using X11. Designed for testing interfaces and high-performance automation.
+A lightweight C library for Linux and Windows automation using X11 and WIN32 API. Designed for testing interfaces and high-performance automation.
 
 ## Features
 
