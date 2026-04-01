@@ -8,7 +8,7 @@
     #define IO_SLEEP(ms) usleep(2000)
 #endif
 
-static void __smooth_mouse_movement__(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
+void __smooth_mouse_movement__(const IOContext *ctx, int initialPosition[2], int finalPosition[2]) {
      int difX,difY, difTotal, n;
     // absolute value of cords to make a smooth mouse move
     if(initialPosition[0] > finalPosition[0]) {
@@ -32,5 +32,20 @@ static void __smooth_mouse_movement__(const IOContext *ctx, int initialPosition[
         posY += incY;
         mouse_move(ctx,(int) posX,(int) posY);
       
+    }
+}
+
+void keyboard_string (const IOContext *ctx, const char *string) {
+    int i = 0;
+    while(string[i] != '\0') {
+        // if letter
+        if ((string[i] >= 0x41 && string[i] <= 0x5A) || (string[i] >= 0x61 && string[i] <= 0x7A)) {
+            keyboard_press(ctx, string[i]);
+        }
+        // if space or number
+        else if (string[i] == 0x20 || (string[i] >= 0x30 && string[i] <= 0x39)) keyboard_press(ctx, string[i]);
+        // special characters case not implemented 
+
+        i++;
     }
 }

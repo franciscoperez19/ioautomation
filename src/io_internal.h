@@ -19,6 +19,6 @@ struct IOContext {
 
 // common functions
 
-static void _smooth_mouse_movement(const IOContext *ctx, int initialPosition[2], int finalPosition[2])
+void __smooth_mouse_movement__(const IOContext *ctx, int initialPosition[2], int finalPosition[2]);
 
 #endif 

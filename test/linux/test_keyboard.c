@@ -15,11 +15,7 @@ int main() {
     keyboard_press(ctx,KEY_o);
     keyboard_press(ctx,KEY_ENTER);
     sleep(2);
-    KeyboardKey text[] = {KEY_H, KEY_e, KEY_l,KEY_l,KEY_o, KEY_SPACE, KEY_w, KEY_o, KEY_r, KEY_l, KEY_d};
-
-    for(int i = 0; i < (int) (sizeof(text)/sizeof(text[0])); i++){
-        keyboard_press(ctx, text[i]);
-    }
+    keyboard_string(ctx, "Hello World");
 
     io_cleanup(ctx);
 

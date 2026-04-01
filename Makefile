@@ -3,11 +3,12 @@ CFLAGS = -Wall -Wextra -Iinclude -Isrc
 LFLAGS = -lX11 -lXtst
 
 SRCLINUX_DIR = src/linux
+SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 TESTLINUX_DIR = test/linux
 
-SRCS = $(wildcard $(SRCLINUX_DIR)/*.c)
+SRCS = $(wildcard $(SRCLINUX_DIR)/*.c $(SRC_DIR)/common.c)
 OBJS = $(patsubst $(SRCLINUX_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 TARGET = $(BIN_DIR)/test_io
@@ -16,11 +17,15 @@ all: $(TARGET)
 
 
 
-$(TARGET): $(OBJS) $(TESTLINUX_DIR)/test_mouse.c
+$(TARGET): $(OBJS) $(TESTLINUX_DIR)/test_keyboard.c
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRCLINUX_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRCLINUX_DIR)/%.c 
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
