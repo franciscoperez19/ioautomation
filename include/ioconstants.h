@@ -6,7 +6,9 @@ typedef enum{
         // mouse scroll in windows api is treaten differently
         MOUSE_LEFT_CLICK = 0x0002,
         MOUSE_MIDDLE_CLICK = 0x0020,
-        MOUSE_RIGHT_CLICK = 0x0008
+        MOUSE_RIGHT_CLICK = 0x0008,
+        MOUSE_SCROLL_VERTICAL = 0,
+        MOUSE_SCROLL_HORIZONTAL = 1,
     #else
         MOUSE_LEFT_CLICK = 1,
         MOUSE_MIDDLE_CLICK = 2,

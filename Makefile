@@ -1,46 +1,42 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -Isrc
 
-OS = $(shell uname -s)
-
 ifeq ($(OS), Windows_NT)
 	LFLAGS = -luser32 -lgdi32
 	SRCOS_DIR = src/windows
-	SRC_DIR = src
-	OBJ_DIR = obj
-	BIN_DIR = bin
-	RM = del /Q /F
+	RM = rd /s /q
 	TESTOS_DIR = test/windows
+	TARGET = $(BIN_DIR)/test_io.exe
+	MKDIR = if not exist $(subst /,\,$(1)) mkdir $(subst /,\,$(1))
 else
 	LFLAGS = -lX11 -lXtst
 	SRCOS_DIR = src/linux
-	SRC_DIR = src
-	OBJ_DIR = obj
-	BIN_DIR = bin
 	RM = rm -rf
 	TESTOS_DIR = test/linux
+	TARGET = $(BIN_DIR)/test_io
+	MKDIR = mkdir -p $(1)
 endif
 
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
 
-SRCS = $(wildcard $(SRCOS_DIR)/*.c $(SRC_DIR)/common.c)
-OBJS = $(patsubst $(SRCOS_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+SRCS = $(wildcard $(SRCOS_DIR)/*.c) $(SRC_DIR)/common.c
+OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
 
-TARGET = $(BIN_DIR)/test_io
+VPATH = $(SRCOS_DIR) $(SRC_DIR)
+
 LIB_NAME = libioautomation.a
 all: $(TARGET)
 
 
 
 $(TARGET): $(OBJS) $(TESTOS_DIR)/test_keyboard.c
-	@mkdir -p $(BIN_DIR)
+	@$(call MKDIR, $(BIN_DIR))
 	$(CC) $(CFLAGS) $^ -o $@ $(LFLAGS)
 
-$(OBJ_DIR)/%.o: $(SRCOS_DIR)/%.c 
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/%.o: %.c
+	@$(call MKDIR, $(OBJ_DIR))
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -50,12 +46,10 @@ test: all
 	./$(TARGET)
 
 lib:
-	@echo "Compiling objects..."
-	$(CC) $(CFLAGS) -c src/*.c 
-	@echo "Creating static lib $(LIB_NAME)"
-	ar rcs $(LIB_NAME) *.o
-	@rm *.o
-	@echo "Done! Library in actual directory"
+	$(OBJS)
+	@echo "Creating static library $(LIB_NAME)..."
+	ar rcs $(LIB_NAME) $(OBJS)
+	@echo "Done!"
 
 install: lib
 	@echo "Installing in usr/local/lib..."
