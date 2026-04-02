@@ -1,5 +1,6 @@
 #include "../../include/ioautomation.h"
-
+#include <windows.h>
+#include <time.h>
 /*
 *   ==========================================================
 *               IOAutomation Windows Keyboard Test
@@ -29,7 +30,7 @@ int main() {
     Sleep(1000);
     keyboard_press(ctx, KEY_ENTER);    
 
-    ctx = io_cleanup();
+    io_cleanup(ctx);
 
     return 0;
 }

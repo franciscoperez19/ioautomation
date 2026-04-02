@@ -1,4 +1,5 @@
 #include "../../include/ioautomation.h"
+#include <windows.h>
 #include <stdio.h>
 
 /*
@@ -36,5 +37,6 @@ int main() {
         i++;
     }
 
+    io_cleanup(ctx);
 
 }
