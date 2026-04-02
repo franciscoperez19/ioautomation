@@ -89,3 +89,35 @@ void keyboard_hotkey(const IOContext *ctx, KeyboardKey *keys, int keysCount) {
     __keyboard_process__(keyProcessed, newSize);
     free(keyProcessed);
 }
+
+
+
+/** 
+*    @brief Copy content of "string" on clipboard
+*    @param ctx Pointer to context of library
+*    @param string Array of chars to copy on clipboard
+*    @return return -1 in case of error, otherwise 0
+*
+*/
+int copy_clipboard(const IOContext *ctx, const char *string) {
+    if (!OpenClipboard(NULL)) return -1;
+    size_t stringLen = strlen(string) + 1;
+    HGLOBAL mem;  
+
+
+    EmptyClipboard();
+
+
+    if ((mem = GlobalAlloc(GMEM_MOVEABLE, stringLen)) == NULL){
+        CloseClipboard();
+        return -1;
+    } 
+
+    memcpy(GlobalLock(mem),string,stringLen);
+    GlobalUnlock(mem);
+
+    SetClipboardData(CF_TEXT,mem);
+
+    CloseClipboard();
+    return 0;
+}

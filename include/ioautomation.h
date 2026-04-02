@@ -23,5 +23,6 @@ int mouse_drag(const IOContext *ctx, int initialPosition[2], int finalPosition[2
 void keyboard_press(const IOContext *ctx, KeyboardKey key);
 void keyboard_hotkey(const IOContext *ctx, KeyboardKey *keys, int keysCount);
 void keyboard_string (const IOContext *ctx, const char *string);
+int copy_clipboard(const IOContext *ctx, const char *string);
 
 #endif 

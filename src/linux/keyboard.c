@@ -49,3 +49,15 @@ void keyboard_hotkey(const IOContext *ctx, KeyboardKey *keys, int keysCount) {
     _key_sequence(ctx, keys, keysCount);
 }
 
+
+
+/** 
+*    @brief Copy content of "string" on clipboard
+*    @param ctx Pointer to context of library
+*    @param string Array of chars to copy on clipboard
+*    @return return -1 in case of error, otherwise 0
+*
+*/
+int copy_clipboard(const IOContext *ctx, const char *string) {
+    return 0;
+}

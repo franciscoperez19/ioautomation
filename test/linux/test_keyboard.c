@@ -1,6 +1,20 @@
 #include "../../include/ioautomation.h"
 #include <unistd.h>
 
+
+/*
+*   ==========================================================
+*               IOAutomation Linux Keyboard Test
+*   1. Open a new terminal with hotkey Ctrl+Alt+T
+*   2. Press the sequence "nano" + ENTER
+*   3. Write Hello World with the function string
+*
+*       If this helps your workflow, give this repo a STAR!
+*   ===========================================================
+*/
+
+
+
 int main() {
     IOContext *ctx;
     ctx = io_init();

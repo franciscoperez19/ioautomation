@@ -3,6 +3,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/*
+*   ==========================================================
+*               IOAutomation Linux Mouse Test
+*   1. Move mouse to x,y
+*   2. Read position of mouse
+*   3. Compare position with x,y
+*   4. Check mouse drag function
+*
+*   (Code on comment check mouse click and mouse scroll)
+*
+*       If this helps your workflow, give this repo a STAR!
+*   ===========================================================
+*/
+
+
+
 void test_mousemove(IOContext *ctx, int x, int y);
 int* test_mouseread(IOContext *ctx);
 
@@ -12,7 +28,10 @@ int main() {
     ctx = io_init();
 
     test_mousemove(ctx, x, y);
+    usleep(200);
+    
     int *pos = test_mouseread(ctx);
+    if (!pos) return -1;
 
     if(pos[0] == x && pos[1] == y) {
         printf("[\033[32mOK\033[0m] Mouse movement test\n");
